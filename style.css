@@ -1,0 +1,1136 @@
+/* Removes the browser's default spacing */
+* {
+    box-sizing: border-box;
+}
+
+
+/*
+Guarantees the `hidden` attribute always actually hides an
+element, even if that element's own class sets a `display`
+value (which would otherwise silently win and leave the
+element visible and taking up layout space).
+*/
+[hidden] {
+    display: none !important;
+}
+
+
+/* =========================================================
+   MAIN WEBPAGE
+   ========================================================= */
+
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    font-family: sans-serif;
+
+    overflow: hidden;
+
+    overscroll-behavior: none;
+}
+
+
+/* Giant background layer behind everything */
+body::before {
+    content: "";
+
+    position: fixed;
+
+    width: 200vw;
+    height: 200vh;
+
+    top: -50vh;
+    left: -50vw;
+
+    background: repeating-linear-gradient(
+        135deg,
+        #dfffcc 0px,
+        #dfffcc 80px,
+        #CCCCFF 80px,
+        #CCCCFF 160px
+    );
+
+    animation: backgroundMove 10s linear infinite;
+
+    z-index: -1;
+}
+
+
+/* Continuous background movement */
+@keyframes backgroundMove {
+
+    from {
+        transform: translate(0, 0);
+    }
+
+    to {
+        transform: translate(-113px, -113px);
+    }
+}
+
+
+/* =========================================================
+   SCREEN SYSTEM
+   ========================================================= */
+
+.screen {
+    position: fixed;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+
+    transition:
+        transform 0.9s cubic-bezier(0.65, 0, 0.35, 1),
+        opacity 0.9s ease;
+
+    transform: translateY(100vh);
+
+    opacity: 0;
+
+    z-index: 1;
+}
+
+
+/* Visible screen */
+.screen.active {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+
+/* Screen leaving upward */
+.screen.exit {
+    transform: translateY(-100vh);
+    opacity: 0;
+}
+
+
+/* =========================================================
+   LANDING SCREEN
+   ========================================================= */
+
+#landingScreen {
+    flex-direction: column;
+}
+
+
+/* Main title */
+h1 {
+    font-family: "Gaegu", sans-serif;
+
+    font-size: clamp(4rem, 9vw, 8rem);
+
+    margin: 0 0 25px 0;
+
+    color: #30336B;
+
+    line-height: 1.05;
+
+    text-align: center;
+
+    text-shadow:
+        0 4px 0 rgba(2, 9, 15, 0.8),
+        0 8px 20px rgba(125, 91, 166, 0.2);
+}
+
+
+/* Paragraph */
+p {
+    font-family: sans-serif;
+
+    font-size: 1.1rem;
+
+    margin: 0 0 30px 0;
+
+    color: #45477A;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+button {
+    font-family: "Bitcount Prop Single", sans-serif;
+
+    font-size: 1.1rem;
+
+    padding: 10px 25px;
+
+    border: none;
+
+    border-radius: 25px;
+
+    cursor: pointer;
+
+    background: #5B5FC7;
+
+    color: #ffffff;
+
+    transition:
+        background-color 0.25s ease,
+        transform 0.15s ease,
+        box-shadow 0.25s ease;
+
+    box-shadow:
+        0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+
+button:hover {
+    background: #7A63D8;
+
+    transform: scale(1.04);
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.18);
+}
+
+
+button:active {
+    transform: scale(0.97);
+}
+
+
+/* =========================================================
+   MESSAGE SCREEN
+   ========================================================= */
+
+#messageScreen {
+    flex-direction: column;
+}
+
+
+.messageContent {
+    max-width: 700px;
+
+    text-align: center;
+}
+
+
+.messageContent h2 {
+    font-family: "Gaegu", sans-serif;
+
+    font-size: clamp(3rem, 7vw, 6rem);
+
+    color: #30336B;
+
+    margin: 0 0 20px 0;
+}
+
+
+/* =========================================================
+   GAME SCREEN
+   ========================================================= */
+
+#gameScreen {
+    padding: 0;
+
+    display: flex;
+
+    background: #10162f;
+}
+
+
+#gameCanvas {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    max-height: 100%;
+
+    image-rendering: pixelated;
+
+    /* Stops the browser's own scroll/zoom gestures from
+       fighting with the on-screen controls while playing. */
+    touch-action: none;
+}
+
+
+/* Game Back button */
+#gameBackButton {
+    position: absolute;
+
+    top: max(20px, env(safe-area-inset-top));
+    left: max(20px, env(safe-area-inset-left));
+
+    z-index: 10;
+}
+
+
+/* =========================================================
+   ⭐ NEW: COMIC SCREEN
+   ========================================================= */
+
+#comicScreen {
+    flex-direction: column;
+
+    background: #f8f3ed;
+
+    text-align: center;
+}
+
+
+.comicPlaceholder {
+    max-width: 700px;
+}
+
+
+.comicPlaceholder h2 {
+    font-family: "Gaegu", sans-serif;
+
+    font-size: clamp(3rem, 7vw, 6rem);
+
+    color: #7d5ba6;
+
+    margin: 0 0 20px 0;
+}
+
+
+.comicPlaceholder p {
+    margin-bottom: 30px;
+}
+
+
+/* =========================================================
+   HEART FIREWORK
+   ========================================================= */
+
+.heart {
+    position: fixed;
+
+    left: var(--start-x);
+    top: var(--start-y);
+
+    font-size: 1.5rem;
+
+    color: #e889b0;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    animation:
+        heartFirework 1.2s ease-out forwards;
+}
+
+
+@keyframes heartFirework {
+
+    from {
+        transform:
+            translate(-50%, -50%)
+            scale(0.3);
+
+        opacity: 1;
+    }
+
+    to {
+        transform:
+            translate(
+                calc(-50% + var(--x)),
+                calc(-50% + var(--y))
+            )
+            scale(1);
+
+        opacity: 0;
+    }
+}
+
+/* =========================================================
+   MOBILE GAME CONTROLS
+   ========================================================= */
+
+.mobile-controls {
+    display: none;
+}
+
+
+/*
+Show controls when the viewport is narrow OR
+when the device reports a coarse pointer.
+*/
+@media (max-width: 768px),
+       (pointer: coarse) {
+
+    .mobile-controls {
+
+        position: fixed;
+
+        left: 0;
+        right: 0;
+        bottom: max(20px, env(safe-area-inset-bottom));
+
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        padding: 0 22px;
+
+        z-index: 9999;
+
+        pointer-events: none;
+
+        user-select: none;
+
+        -webkit-user-select: none;
+
+    }
+
+
+    .mobile-dpad {
+
+        display: flex;
+
+        gap: 8px;
+
+        pointer-events: auto;
+
+    }
+
+
+    .mobile-control-button {
+
+        width: 58px;
+        height: 58px;
+
+        border-radius: 16px;
+
+        border:
+            2px solid
+            rgba(255, 247, 252, 0.28);
+
+        background:
+            rgba(16, 22, 47, 0.28);
+
+        backdrop-filter:
+            blur(4px);
+
+        -webkit-backdrop-filter:
+            blur(4px);
+
+        color:
+            rgba(255, 247, 252, 0.72);
+
+        font-family:
+            "Bitcount Prop Single",
+            sans-serif;
+
+        font-size: 24px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        padding: 0;
+
+        margin: 0;
+
+        touch-action: none;
+
+        -webkit-tap-highlight-color:
+            transparent;
+
+        transition:
+            background 0.12s ease,
+            border-color 0.12s ease,
+            color 0.12s ease;
+
+    }
+
+
+    .dpad-button {
+
+        width: 52px;
+        height: 52px;
+
+        border-radius: 14px;
+
+        font-size: 20px;
+
+    }
+
+
+    .jump-button {
+
+        width: 52px;
+        height: 52px;
+
+        border-radius: 14px;
+
+        font-size: 20px;
+
+        pointer-events: auto;
+
+    }
+
+
+    .mobile-control-button:active,
+    .mobile-control-button.pressed {
+
+        background:
+            rgba(232, 137, 176, 0.48);
+
+        border-color:
+            rgba(255, 247, 252, 0.60);
+
+        color:
+            #fff7fc;
+
+    }
+
+}
+
+/* =========================================================
+   FINAL BIRTHDAY SCREEN
+   ========================================================= */
+
+#finalScreen {
+
+    overflow-y: auto;
+
+}
+
+
+.finalBackground {
+
+    min-height: 100%;
+
+    width: 100%;
+
+    position: relative;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: flex-start;
+
+    background:
+        radial-gradient(
+            circle at 50% 20%,
+            rgba(125, 91, 166, 0.18),
+            transparent 45%
+        ),
+        linear-gradient(
+            180deg,
+            #B8E6A8 0%,
+            #B8E6A8 55%,
+            #B8E6A8 100%
+        );
+
+    padding:
+        80px 24px 70px;
+
+    box-sizing: border-box;
+
+}
+
+
+.finalContent {
+
+    width: min(
+        760px,
+        100%
+    );
+
+    position: relative;
+
+    text-align: center;
+
+    z-index: 2;
+
+}
+
+
+.finalEyebrow {
+
+    margin: 0 0 10px;
+
+    font-family:
+        "Gaegu",
+        sans-serif;
+
+    font-size: 28px;
+
+    color:
+        rgba(
+            255,
+            247,
+            252,
+            0.75
+        );
+
+}
+
+
+.finalContent h2 {
+
+    margin: 0;
+
+    font-family:
+        "Emilys Candy",
+        cursive;
+
+    font-size: clamp(
+        48px,
+        8vw,
+        84px
+    );
+
+    line-height: 1.05;
+
+    color:
+        #30336B;
+
+}
+
+
+.finalDivider {
+
+    margin:
+        24px 0 28px;
+
+    font-size: 30px;
+
+    color:
+        #a8637e;
+
+}
+
+
+.birthdayMessage {
+
+    width: 100%;
+
+    margin: 0 auto;
+
+    font-family:
+        "Gaegu",
+        sans-serif;
+
+    font-size: 27px;
+
+    line-height: 1.45;
+
+    color:
+        #fff7fc;
+
+}
+
+
+.birthdayMessage p {
+
+    margin:
+        0 0 26px;
+
+}
+
+
+.musicCard {
+
+    width: min(
+        560px,
+        100%
+    );
+
+    margin:
+        45px auto 30px;
+
+    padding:
+        22px 24px;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    text-align: left;
+
+    border:
+        1px solid
+        rgba(
+            255,
+            247,
+            252,
+            0.18
+        );
+
+    border-radius:
+        22px;
+
+    background:
+        rgba(
+            16,
+            22,
+            47,
+            0.42
+        );
+
+    backdrop-filter:
+        blur(8px);
+
+    -webkit-backdrop-filter:
+        blur(8px);
+
+    box-shadow:
+        0 12px 40px
+        rgba(
+            0,
+            0,
+            0,
+            0.18
+        );
+
+}
+
+
+.musicIcon {
+
+    width: 58px;
+
+    height: 58px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius:
+        50%;
+
+    background:
+        rgba(
+            232,
+            137,
+            176,
+            0.18
+        );
+
+    color:
+        #f6c4d8;
+
+    font-family:
+        "Bitcount Prop Single",
+        sans-serif;
+
+    font-size: 30px;
+
+}
+
+
+.musicText h3 {
+
+    margin:
+        0 0 3px;
+
+    font-family:
+        "Bitcount Prop Single",
+        sans-serif;
+
+    font-size: 24px;
+
+    color:
+        #f6c4d8;
+
+}
+
+
+.musicText p {
+
+    margin: 0;
+
+    font-family:
+        "Gaegu",
+        sans-serif;
+
+    font-size: 21px;
+
+    color:
+        rgba(
+            255,
+            247,
+            252,
+            0.72
+        );
+
+}
+
+
+.finalClosing {
+
+    margin:
+        35px 0 25px;
+
+    font-size: 28px;
+
+    color:
+        #e889b0;
+
+}
+
+
+.finalBackButton {
+
+    opacity:
+        0.65;
+
+}
+
+
+/* =========================================================
+   DECORATIVE STARS
+   ========================================================= */
+
+.finalStars {
+
+    position: absolute;
+
+    font-size: 20px;
+
+    letter-spacing: 18px;
+
+    color:
+        rgba(
+            246,
+            196,
+            216,
+            0.28
+        );
+
+    pointer-events: none;
+
+}
+
+
+.finalStarsOne {
+
+    top: 12%;
+
+    left: 7%;
+
+}
+
+
+.finalStarsTwo {
+
+    top: 25%;
+
+    right: 4%;
+
+}
+
+
+/* =========================================================
+   COMIC BUTTONS
+   ========================================================= */
+
+.comicButtons {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 14px;
+
+    flex-wrap: wrap;
+
+    margin-top: 30px;
+
+}
+
+/* =========================================================
+   COMIC VIEWER
+   ========================================================= */
+
+#comicScreen {
+
+    overflow-y: auto;
+
+}
+
+
+.comicViewer {
+
+    width: 100%;
+
+    height: 100%;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: flex-start;
+
+    padding:
+        max(45px, env(safe-area-inset-top))
+        max(24px, env(safe-area-inset-right))
+        max(55px, env(safe-area-inset-bottom))
+        max(24px, env(safe-area-inset-left));
+
+    background:
+        linear-gradient(
+            180deg,
+            #A7B8FF 0%,
+            #A7B8FF 55%,
+            #A7B8FF 100%
+        );
+
+}
+
+
+/* =========================================================
+   COMIC IMAGE CONTAINER
+   ========================================================= */
+/*
+This box is what actually "contains" the comic page — a
+permanent, always-visible frame (whether it's showing the
+placeholder or the real artwork). It grows to fill whatever
+space is left after the page number, nav buttons and back
+button take their share, and never grows past that — so the
+buttons always sit right underneath it, and the image is
+guaranteed to be centered inside it, not floating loose.
+*/
+
+.comicPageContainer {
+
+    position: relative;
+
+    width: 100%;
+
+    max-width: 1100px;
+
+    flex: 1 1 auto;
+
+    min-height: 220px;
+
+    box-sizing: border-box;
+
+    padding: 20px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    border:
+        1px solid
+        rgba(
+            255,
+            247,
+            252,
+            0.15
+        );
+
+    border-radius: 18px;
+
+    background:
+        rgba(
+            16,
+            22,
+            47,
+            0.35
+        );
+
+    box-shadow:
+        0 14px 45px
+        rgba(
+            0,
+            0,
+            0,
+            0.2
+        );
+
+    overflow: hidden;
+
+}
+
+
+/* =========================================================
+   COMIC IMAGE
+   ========================================================= */
+
+.comicPageImage {
+
+    display: block;
+
+    width: auto;
+
+    height: auto;
+
+    max-width: 100%;
+
+    max-height: 100%;
+
+    object-fit: contain;
+
+    border-radius: 6px;
+
+}
+
+
+/* =========================================================
+   TEMPORARY MISSING-PAGE PLACEHOLDER
+   ========================================================= */
+/*
+Sits inside the same frame as the real artwork (see
+.comicPageContainer above) rather than drawing its own box,
+so the two states line up exactly.
+*/
+
+.comicPagePlaceholder {
+
+    width: 100%;
+
+    height: 100%;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    color:
+        #fff7fc;
+
+}
+
+
+.comicPagePlaceholder h2 {
+
+    margin:
+        0 0 8px;
+
+    font-family:
+        "Gaegu",
+        sans-serif;
+
+    font-size: 34px;
+
+}
+
+
+.comicPagePlaceholder p {
+
+    margin: 0;
+
+    font-family:
+        "Gaegu",
+        sans-serif;
+
+    font-size: 23px;
+
+    opacity: 0.7;
+
+}
+
+
+/* =========================================================
+   PAGE NUMBER
+   ========================================================= */
+
+.comicPageNumber {
+
+    margin:
+        18px 0 16px;
+
+    font-family:
+        "Gaegu",
+        sans-serif;
+
+    font-size: 24px;
+
+    color:
+        rgba(
+            255,
+            247,
+            252,
+            0.72
+        );
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+.comicNavigation {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 14px;
+
+}
+
+
+.comicNavigation button {
+
+    min-width: 120px;
+
+}
+
+
+/* =========================================================
+   DISABLED PREVIOUS BUTTON
+   ========================================================= */
+
+.comicNavigation button:disabled {
+
+    opacity: 0.25;
+
+    cursor: default;
+
+    pointer-events: none;
+
+}
+
+
+/* =========================================================
+   BACK TO GAME
+   ========================================================= */
+
+.comicBackButton {
+
+    margin-top: 18px;
+
+    opacity: 0.7;
+
+}
