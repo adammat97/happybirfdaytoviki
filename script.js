@@ -27,6 +27,11 @@ const comicNextButton =
         "comicNextButton"
     );
 
+const comicContinueButton =
+    document.getElementById(
+        "comicContinueButton"
+    );
+
 const comicPageImage =
     document.getElementById(
         "comicPageImage"
@@ -911,18 +916,6 @@ const keys = {
 };
 
 
-// =========================================================
-// VISUAL FRAME RATE
-// =========================================================
-
-const visualFrameRate = 30;
-
-const visualFrameDuration =
-    1000 /
-    visualFrameRate;
-
-let lastVisualFrameTime = 0;
-
 let currentVisualTime = 0;
 
 
@@ -985,11 +978,9 @@ function displayComicPage(
 
 
     /*
-    Check whether the image actually exists.
-
-    Pages 3 and 4 aren't available yet,
-    so this lets us develop the viewer
-    without breaking the site.
+    Check whether the image actually loads before swapping
+    it in, so a missing/mistyped file falls back to the
+    "coming soon" placeholder instead of a broken image icon.
     */
 
     const testImage =
@@ -1051,25 +1042,20 @@ function displayComicPage(
 
 
     // -----------------------------------------------------
-    // NEXT BUTTON
+    // NEXT / CONTINUE BUTTON
     // -----------------------------------------------------
 
-    if (
+    const isLastPage =
         currentComicPage ===
-        comicPages.length - 1
-    ) {
+        comicPages.length - 1;
 
-        comicNextButton.textContent =
-            "continue →";
 
-    }
+    comicNextButton.hidden =
+        isLastPage;
 
-    else {
 
-        comicNextButton.textContent =
-            "next →";
-
-    }
+    comicContinueButton.hidden =
+        !isLastPage;
 
 }
 
@@ -1199,15 +1185,19 @@ comicNextButton.addEventListener(
                 currentComicPage + 1
             );
 
-            return;
-
         }
 
+    }
+);
 
-        /*
-        We are on page 4.
-        Move to the final birthday page.
-        */
+comicContinueButton.addEventListener(
+    "click",
+    () => {
+
+        createHeartFirework(
+            comicContinueButton
+        );
+
 
         moveToFinalScreen();
 
@@ -2462,24 +2452,26 @@ function drawMemoryMessages() {
             "middle";
 
 
+        const fontSize =
+            gameCanvas.width < 700
+                ? 26
+                : 38;
+
+
         ctx.font =
-            "38px Gaegu, sans-serif";
+            `${fontSize}px Gaegu, sans-serif`;
 
 
         const messageWidth =
             Math.min(
                 600,
                 gameCanvas.width *
-                0.55
+                0.8
             );
 
 
         const x =
             screenX;
-
-
-        const y =
-            message.y;
 
 
         const lines =
@@ -2490,12 +2482,36 @@ function drawMemoryMessages() {
 
 
         const lineHeight =
-            44;
+            fontSize +
+            6;
 
 
         const totalHeight =
             lines.length *
             lineHeight;
+
+
+        /*
+        Keep the box fully on-screen even if its stored
+        position would otherwise place part of it above the
+        canvas top — this can happen on a shorter, letterboxed
+        mobile canvas where the memory's usual height above
+        the ground no longer leaves enough headroom.
+        */
+        const topMargin =
+            16;
+
+        const minY =
+            topMargin +
+            totalHeight /
+            2 +
+            20;
+
+        const y =
+            Math.max(
+                message.y,
+                minY
+            );
 
 
         const boxX =
@@ -5148,31 +5164,23 @@ function gameLoop(
         );
 
 
+    lastTime =
+        currentTime;
+
+
     updateGame(
         safeDeltaTime
     );
 
 
-    if (
-        currentTime -
-        lastVisualFrameTime >=
-        visualFrameDuration
-    ) {
-
-        currentVisualTime =
-            currentTime /
-            1000;
+    currentVisualTime =
+        currentTime /
+        1000;
 
 
-        drawGame(
-            currentVisualTime
-        );
-
-
-        lastVisualFrameTime =
-            currentTime;
-
-    }
+    drawGame(
+        currentVisualTime
+    );
 
 
     requestAnimationFrame(

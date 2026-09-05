@@ -78,7 +78,7 @@
             class="mobile-control-button dpad-button"
             aria-label="Move left"
         >
-            ◀
+            ◀︎
         </button>
 
         <button
@@ -87,7 +87,7 @@
             class="mobile-control-button dpad-button"
             aria-label="Move right"
         >
-            ▶
+            ▶︎
         </button>
 
     </div>
@@ -139,6 +139,44 @@
                 </p>
             </div>
 
+
+            <!-- =========================================
+                 PAGE ARROWS
+                 (anchored to the container's own edges)
+                 ========================================= -->
+
+            <button
+                id="comicPreviousButton"
+                type="button"
+                class="comicArrowButton comicArrowLeft"
+                aria-label="Previous page"
+            >
+                ‹
+            </button>
+
+            <button
+                id="comicNextButton"
+                type="button"
+                class="comicArrowButton comicArrowRight"
+                aria-label="Next page"
+            >
+                ›
+            </button>
+
+
+            <!-- =========================================
+                 CONTINUE (only shown on the last page)
+                 ========================================= -->
+
+            <button
+                id="comicContinueButton"
+                type="button"
+                class="comicContinueButton"
+                hidden
+            >
+                Continue →
+            </button>
+
         </div>
 
 
@@ -152,30 +190,6 @@
         >
             Page 1 of 5
         </p>
-
-
-        <!-- =============================================
-             NAVIGATION
-             ============================================= -->
-
-        <div class="comicNavigation">
-
-            <button
-                id="comicPreviousButton"
-                type="button"
-            >
-                ← back
-            </button>
-
-
-            <button
-                id="comicNextButton"
-                type="button"
-            >
-                next →
-            </button>
-
-        </div>
 
 
         <!-- =============================================
@@ -215,11 +229,11 @@
         <div class="finalContent">
 
             <p class="finalEyebrow">
-                lastest but not the leastest
+                And finally...
             </p>
 
             <h2>
-                happiest birthday to my wife 🤍
+                🤍 happiest birthday to my wife 🤍
             </h2>
 
             <div class="finalDivider">
@@ -294,9 +308,3 @@
 </body>
 
 </html>
-
-
-
-
-
-

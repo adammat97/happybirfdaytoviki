@@ -503,6 +503,8 @@ when the device reports a coarse pointer.
 
 #finalScreen {
 
+    align-items: flex-start;
+
     overflow-y: auto;
 
 }
@@ -653,18 +655,9 @@ when the device reports a coarse pointer.
     margin:
         45px auto 30px;
 
-    padding:
-        22px 24px;
-
     box-sizing: border-box;
 
-    display: flex;
-
-    align-items: center;
-
-    gap: 18px;
-
-    text-align: left;
+    overflow: hidden;
 
     border:
         1px solid
@@ -700,6 +693,15 @@ when the device reports a coarse pointer.
             0,
             0.18
         );
+
+}
+
+
+.musicCard iframe {
+
+    display: block;
+
+    width: 100%;
 
 }
 
@@ -889,10 +891,10 @@ when the device reports a coarse pointer.
     justify-content: flex-start;
 
     padding:
-        max(45px, env(safe-area-inset-top))
-        max(24px, env(safe-area-inset-right))
-        max(55px, env(safe-area-inset-bottom))
-        max(24px, env(safe-area-inset-left));
+        max(30px, env(safe-area-inset-top))
+        max(20px, env(safe-area-inset-right))
+        max(36px, env(safe-area-inset-bottom))
+        max(20px, env(safe-area-inset-left));
 
     background:
         linear-gradient(
@@ -1085,10 +1087,29 @@ so the two states line up exactly.
 
 
 /* =========================================================
-   NAVIGATION
+   PAGE ARROWS
    ========================================================= */
+/*
+Anchored to the comic page container's own left/right edges
+(it has position:relative), so they read as part of that
+container rather than a separate row of buttons underneath.
+*/
 
-.comicNavigation {
+.comicArrowButton {
+
+    position: absolute;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 52px;
+
+    height: 52px;
+
+    padding: 0;
+
+    border-radius: 50%;
 
     display: flex;
 
@@ -1096,29 +1117,63 @@ so the two states line up exactly.
 
     justify-content: center;
 
-    gap: 14px;
+    font-size: 26px;
+
+    line-height: 1;
+
+    background: rgba(16, 22, 47, 0.55);
+
+    box-shadow:
+        0 6px 18px
+        rgba(0, 0, 0, 0.25);
+
+    z-index: 5;
 
 }
 
 
-.comicNavigation button {
+.comicArrowLeft {
 
-    min-width: 120px;
+    left: 14px;
 
 }
 
 
-/* =========================================================
-   DISABLED PREVIOUS BUTTON
-   ========================================================= */
+.comicArrowRight {
 
-.comicNavigation button:disabled {
+    right: 14px;
+
+}
+
+
+.comicArrowButton:disabled {
 
     opacity: 0.25;
 
     cursor: default;
 
     pointer-events: none;
+
+}
+
+
+/* =========================================================
+   CONTINUE BUTTON
+   ========================================================= */
+/*
+Only shown once the final page is reached (see
+comicContinueButton.hidden toggling in script.js).
+*/
+
+.comicContinueButton {
+
+    position: absolute;
+
+    top: 14px;
+
+    right: 14px;
+
+    z-index: 5;
 
 }
 
