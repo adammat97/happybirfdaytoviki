@@ -256,7 +256,7 @@ const PLAYER_JUMP_SPRITE = [
     "......PP........",
     ".....PSSP.......",
     ".....PSSP.......",
-    "....PSESP.......",
+    "....PSEESP.......",
     "....PSSSSP......",
     ".....PSSP.......",
 
@@ -277,9 +277,7 @@ const PLAYER_JUMP_SPRITE = [
     "....PS...SP.....",
     "...PS.....SP....",
 
-    "..P.........P...",
-    ".P............P.",
-    "P..............P"
+    "..P.........P..."
 
 ];
 
@@ -410,13 +408,13 @@ const player = {
 
     velocityX: 0,
 
-    speed: 50,
+    speed: 250,
 
     velocityY: 0,
 
-    jumpStrength: 200,
+    jumpStrength: 400,
 
-    gravity: 100,
+    gravity: 500,
 
     onGround: false,
 
