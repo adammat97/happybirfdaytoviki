@@ -645,6 +645,28 @@ when the device reports a coarse pointer.
 }
 
 
+.musicCardCaption {
+
+    margin:
+        45px 0 14px;
+
+    font-family:
+        "Gaegu",
+        sans-serif;
+
+    font-size: 22px;
+
+    color:
+        rgba(
+            255,
+            247,
+            252,
+            0.85
+        );
+
+}
+
+
 .musicCard {
 
     width: min(
@@ -653,7 +675,7 @@ when the device reports a coarse pointer.
     );
 
     margin:
-        45px auto 30px;
+        0 auto 16px;
 
     box-sizing: border-box;
 
@@ -694,6 +716,32 @@ when the device reports a coarse pointer.
             0.18
         );
 
+    animation:
+        musicCardPulse 2.6s ease-in-out infinite;
+
+}
+
+
+/*
+A gentle "tap me" glow — since autoplay-with-sound isn't
+something iOS allows without a direct tap, this invites the
+tap instead of trying (and failing) to play automatically.
+*/
+@keyframes musicCardPulse {
+
+    0%,
+    100% {
+        box-shadow:
+            0 12px 40px rgba(0, 0, 0, 0.18),
+            0 0 0 0 rgba(232, 137, 176, 0.35);
+    }
+
+    50% {
+        box-shadow:
+            0 12px 40px rgba(0, 0, 0, 0.18),
+            0 0 0 10px rgba(232, 137, 176, 0);
+    }
+
 }
 
 
@@ -702,6 +750,41 @@ when the device reports a coarse pointer.
     display: block;
 
     width: 100%;
+
+}
+
+
+.spotifyOpenLink {
+
+    display: inline-block;
+
+    margin:
+        0 0 30px;
+
+    font-family:
+        "Gaegu",
+        sans-serif;
+
+    font-size: 19px;
+
+    color:
+        rgba(
+            255,
+            247,
+            252,
+            0.75
+        );
+
+    text-decoration: underline;
+
+    text-underline-offset: 3px;
+
+}
+
+
+.spotifyOpenLink:hover {
+
+    color: #fff7fc;
 
 }
 
@@ -908,6 +991,39 @@ when the device reports a coarse pointer.
 
 
 /* =========================================================
+   COMIC STAGE
+   ========================================================= */
+/*
+Holds the previous arrow, the page container, and the next
+arrow side by side. On desktop the arrows are absolutely
+positioned so they overlay the container's edges (the look
+that already works well there). A media query further down
+switches them to normal flex items on mobile instead, so
+they sit beside the artwork rather than on top of it.
+*/
+
+.comicStage {
+
+    position: relative;
+
+    width: 100%;
+
+    max-width: 1100px;
+
+    flex: 1 1 auto;
+
+    min-height: 220px;
+
+    display: flex;
+
+    align-items: stretch;
+
+    justify-content: center;
+
+}
+
+
+/* =========================================================
    COMIC IMAGE CONTAINER
    ========================================================= */
 /*
@@ -924,13 +1040,9 @@ guaranteed to be centered inside it, not floating loose.
 
     position: relative;
 
-    width: 100%;
-
-    max-width: 1100px;
-
     flex: 1 1 auto;
 
-    min-height: 220px;
+    min-width: 0;
 
     box-sizing: border-box;
 
@@ -1090,9 +1202,9 @@ so the two states line up exactly.
    PAGE ARROWS
    ========================================================= */
 /*
-Anchored to the comic page container's own left/right edges
-(it has position:relative), so they read as part of that
-container rather than a separate row of buttons underneath.
+Anchored to the comic stage's own left/right edges on
+desktop, so they overlay the container (which fills the
+stage) without actually being children of it.
 */
 
 .comicArrowButton {
@@ -1132,6 +1244,22 @@ container rather than a separate row of buttons underneath.
 }
 
 
+/*
+Keep the button anchored in place on hover/press instead of
+letting the site-wide button:hover/:active scale transform
+silently replace the centering transform above — that
+mismatch was what caused the visible "jump".
+*/
+.comicArrowButton:hover,
+.comicArrowButton:active {
+
+    transform: translateY(-50%);
+
+    background: rgba(16, 22, 47, 0.75);
+
+}
+
+
 .comicArrowLeft {
 
     left: 14px;
@@ -1158,6 +1286,66 @@ container rather than a separate row of buttons underneath.
 
 
 /* =========================================================
+   MOBILE: MOVE ARROWS OFF THE ARTWORK
+   ========================================================= */
+/*
+On narrow screens the artwork itself is narrow enough that
+overlaying arrows on top of it covers too much of the art.
+Switch them to normal flex items flanking the container
+instead — same left/right relationship, just beside the
+frame rather than on top of it.
+*/
+
+@media (max-width: 700px) {
+
+    .comicArrowButton {
+
+        position: static;
+
+        transform: none;
+
+        align-self: center;
+
+        flex: 0 0 auto;
+
+        width: 42px;
+
+        height: 42px;
+
+        font-size: 22px;
+
+    }
+
+
+    .comicArrowButton:hover,
+    .comicArrowButton:active {
+
+        transform: none;
+
+    }
+
+
+    .comicArrowLeft {
+
+        left: auto;
+
+        margin-right: 8px;
+
+    }
+
+
+    .comicArrowRight {
+
+        right: auto;
+
+        margin-left: 8px;
+
+    }
+
+}
+
+
+/* =========================================================
    CONTINUE BUTTON
    ========================================================= */
 /*
@@ -1174,6 +1362,14 @@ comicContinueButton.hidden toggling in script.js).
     right: 14px;
 
     z-index: 5;
+
+}
+
+
+.comicContinueButton:hover,
+.comicContinueButton:active {
+
+    transform: none;
 
 }
 

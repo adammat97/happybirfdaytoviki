@@ -115,35 +115,10 @@
     <div class="comicViewer">
 
         <!-- =============================================
-             COMIC PAGE
+             COMIC PAGE + ARROWS
              ============================================= -->
 
-        <div class="comicPageContainer">
-
-            <img
-                id="comicPageImage"
-                class="comicPageImage"
-                src="assets/comic/comic_page1.webp"
-                alt="Comic page 1"
-            >
-
-            <div
-                id="comicPagePlaceholder"
-                class="comicPagePlaceholder"
-                hidden
-            >
-                <h2>Page coming soon...</h2>
-
-                <p>
-                    This page hasn't arrived yet.
-                </p>
-            </div>
-
-
-            <!-- =========================================
-                 PAGE ARROWS
-                 (anchored to the container's own edges)
-                 ========================================= -->
+        <div class="comicStage">
 
             <button
                 id="comicPreviousButton"
@@ -154,6 +129,43 @@
                 ‹
             </button>
 
+            <div class="comicPageContainer">
+
+                <img
+                    id="comicPageImage"
+                    class="comicPageImage"
+                    src="assets/comic/comic_page1.webp"
+                    alt="Comic page 1"
+                >
+
+                <div
+                    id="comicPagePlaceholder"
+                    class="comicPagePlaceholder"
+                    hidden
+                >
+                    <h2>Page coming soon...</h2>
+
+                    <p>
+                        This page hasn't arrived yet.
+                    </p>
+                </div>
+
+
+                <!-- =====================================
+                     CONTINUE (only shown on the last page)
+                     ===================================== -->
+
+                <button
+                    id="comicContinueButton"
+                    type="button"
+                    class="comicContinueButton"
+                    hidden
+                >
+                    Continue →
+                </button>
+
+            </div>
+
             <button
                 id="comicNextButton"
                 type="button"
@@ -161,20 +173,6 @@
                 aria-label="Next page"
             >
                 ›
-            </button>
-
-
-            <!-- =========================================
-                 CONTINUE (only shown on the last page)
-                 ========================================= -->
-
-            <button
-                id="comicContinueButton"
-                type="button"
-                class="comicContinueButton"
-                hidden
-            >
-                Continue →
             </button>
 
         </div>
@@ -233,7 +231,7 @@
             </p>
 
             <h2>
-                🤍 happiest birthday to my wife 🤍
+                happiest birthday to my wife 🤍
             </h2>
 
             <div class="finalDivider">
@@ -280,11 +278,24 @@
                  MUSIC CARD
                  ========================================= -->
 
+            <p class="musicCardCaption">
+                i like this song for you:
+            </p>
+
             <div class="musicCard">
 
                 <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/track/3oTuTpF1F3A7rEC6RKsMRz?utm_source=generator&theme=0&si=5c53ace5c67649eb" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 
             </div>
+
+            <a
+                class="spotifyOpenLink"
+                href="https://open.spotify.com/track/3oTuTpF1F3A7rEC6RKsMRz"
+                target="_blank"
+                rel="noopener"
+            >
+                Open the full song in Spotify ↗
+            </a>
 
 
             <p class="finalClosing">

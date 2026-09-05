@@ -408,7 +408,7 @@ const player = {
 
     velocityX: 0,
 
-    speed: 250,
+    speed: 200,
 
     velocityY: 0,
 
