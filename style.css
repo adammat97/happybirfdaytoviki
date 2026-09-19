@@ -725,12 +725,7 @@ explanation.
     font-size: 15px;
 
     color:
-        rgba(
-            246,
-            196,
-            216,
-            0.9
-        );
+        rgba(39, 28, 134, 0.9);
 
     text-align: center;
 
@@ -742,14 +737,14 @@ explanation.
     0%,
     100% {
         box-shadow:
-            0 12px 40px rgba(0, 0, 0, 0.18),
+            0 12px 40px rgba(211, 72, 204, 0.582),
             0 0 0 0 rgba(232, 137, 176, 0.45);
     }
 
     50% {
         box-shadow:
-            0 12px 40px rgba(0, 0, 0, 0.18),
-            0 0 0 12px rgba(232, 137, 176, 0);
+            0 12px 40px rgba(211, 72, 204, 0.582),
+            0 0 0 0 rgba(232, 137, 176, 0.45);
     }
 
 }
