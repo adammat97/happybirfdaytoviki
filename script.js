@@ -57,6 +57,16 @@ const finalScreen =
         "finalScreen"
     );
 
+const songCardLeft =
+    document.getElementById(
+        "songCardLeft"
+    );
+
+const songCardRight =
+    document.getElementById(
+        "songCardRight"
+    );
+
 // =========================================================
 // FIND OUR SCREENS
 // =========================================================
@@ -1058,6 +1068,135 @@ function displayComicPage(
 }
 
 // =========================================================
+// SONG CARDS (SoundCloud)
+// =========================================================
+//
+// These two iframes are deliberately NOT part of the page's
+// HTML. They're created here, the instant "Continue" is
+// clicked on the comic screen — that's what makes the left
+// song's auto_play a legitimate, user-gesture-triggered
+// autoplay instead of something the browser silently blocks.
+// =========================================================
+
+const leftSongSource =
+    "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A1033614727&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true";
+
+const rightSongSource =
+    "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2197104827&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true";
+
+let songsStarted =
+    false;
+
+
+function createSongIframe(
+    source
+) {
+
+    const iframe =
+        document.createElement(
+            "iframe"
+        );
+
+    iframe.width =
+        "100%";
+
+    iframe.height =
+        "300";
+
+    iframe.scrolling =
+        "no";
+
+    iframe.frameBorder =
+        "no";
+
+    iframe.allow =
+        "autoplay; encrypted-media";
+
+    iframe.src =
+        source;
+
+    return iframe;
+
+}
+
+
+function startSongs() {
+
+    /*
+    Only ever do this once — revisiting the comic screen and
+    clicking Continue again shouldn't restart the songs from
+    the beginning.
+    */
+
+    if (
+        songsStarted
+    ) {
+
+        return;
+
+    }
+
+
+    songsStarted =
+        true;
+
+
+    const leftIframe =
+        createSongIframe(
+            leftSongSource
+        );
+
+    const rightIframe =
+        createSongIframe(
+            rightSongSource
+        );
+
+
+    songCardLeft.appendChild(
+        leftIframe
+    );
+
+    songCardRight.appendChild(
+        rightIframe
+    );
+
+
+    /*
+    Chain playback: once the left song finishes, start the
+    right one. Needs the SoundCloud Widget API script tag
+    in index.html to have loaded.
+    */
+
+    if (
+        window.SC &&
+        window.SC.Widget
+    ) {
+
+        const leftWidget =
+            SC.Widget(
+                leftIframe
+            );
+
+        const rightWidget =
+            SC.Widget(
+                rightIframe
+            );
+
+
+        leftWidget.bind(
+            SC.Widget.Events.FINISH,
+            () => {
+
+                rightWidget.play();
+
+            }
+        );
+
+    }
+
+}
+
+// =========================================================
 // BUTTON EVENTS
 // =========================================================
 
@@ -1195,6 +1334,9 @@ comicContinueButton.addEventListener(
         createHeartFirework(
             comicContinueButton
         );
+
+
+        startSongs();
 
 
         moveToFinalScreen();

@@ -275,27 +275,57 @@
 
 
             <!-- =========================================
-                 MUSIC CARD
+                 SONG CARDS
+                 (left/right iframes are inserted by
+                 script.js the moment "Continue" is clicked
+                 on the comic screen — see startSongs() —
+                 so nothing loads or plays before then)
                  ========================================= -->
 
             <p class="musicCardCaption">
-                i like this song for you:
+                i hope you remember this song and a new one for you :) :
             </p>
 
-            <div class="musicCard">
+            <div class="songCardsRow">
 
-                <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/track/3oTuTpF1F3A7rEC6RKsMRz?utm_source=generator&theme=0&si=5c53ace5c67649eb" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                <div class="songCard">
+
+                    <div
+                        id="songCardLeft"
+                        class="musicCard"
+                    ></div>
+
+                    <a
+                        class="musicCardLink"
+                        href="https://soundcloud.com/nathanie-ngu-1/sunscreen"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        Sunscreen — NATHANIE ↗
+                    </a>
+
+                </div>
+
+                <div class="songCard">
+
+                    <div
+                        id="songCardRight"
+                        class="musicCard"
+                    ></div>
+
+                    <a
+                        class="musicCardLink"
+                        href="https://soundcloud.com/santandave/raindance"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        Raindance — Dave ↗
+                    </a>
+
+                </div>
 
             </div>
 
-            <a
-                class="spotifyOpenLink"
-                href="https://open.spotify.com/track/3oTuTpF1F3A7rEC6RKsMRz"
-                target="_blank"
-                rel="noopener"
-            >
-                Open the full song in Spotify ↗
-            </a>
 
 
             <p class="finalClosing">
@@ -316,6 +346,9 @@
 
 </section>
 
+
+    <!-- Lets script.js control playback/chaining between the two song cards -->
+    <script src="https://w.soundcloud.com/player/api.js"></script>
 
     <script src="script.js"></script>
 
