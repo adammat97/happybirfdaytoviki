@@ -698,6 +698,63 @@ when the device reports a coarse pointer.
 }
 
 
+/*
+Applied via script.js only when the left song's autoplay
+attempt didn't actually start (e.g. on iOS, where a browser
+can create the iframe but still silently block playback) —
+a clear invitation to tap play, instead of silence with no
+explanation.
+*/
+.musicCard.needsTap {
+
+    animation:
+        musicCardPulse 2.2s ease-in-out infinite;
+
+}
+
+
+.tapHint {
+
+    margin:
+        8px 0 0;
+
+    font-family:
+        "Gaegu",
+        sans-serif;
+
+    font-size: 15px;
+
+    color:
+        rgba(
+            246,
+            196,
+            216,
+            0.9
+        );
+
+    text-align: center;
+
+}
+
+
+@keyframes musicCardPulse {
+
+    0%,
+    100% {
+        box-shadow:
+            0 12px 40px rgba(0, 0, 0, 0.18),
+            0 0 0 0 rgba(232, 137, 176, 0.45);
+    }
+
+    50% {
+        box-shadow:
+            0 12px 40px rgba(0, 0, 0, 0.18),
+            0 0 0 12px rgba(232, 137, 176, 0);
+    }
+
+}
+
+
 .musicCard {
 
     width: 100%;

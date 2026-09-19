@@ -67,6 +67,11 @@ const songCardRight =
         "songCardRight"
     );
 
+const songCardLeftHint =
+    document.getElementById(
+        "songCardLeftHint"
+    );
+
 // =========================================================
 // FIND OUR SCREENS
 // =========================================================
@@ -1162,9 +1167,35 @@ function startSongs() {
 
 
     /*
+    Give autoplay a moment to actually start. If it hasn't
+    within ~1.8s (this is what happens on iOS, which blocks
+    autoplay for embedded third-party players regardless of
+    how the iframe was created), nudge with a visible pulse
+    instead of leaving it silently stuck.
+    */
+
+    const autoplayFallbackTimer =
+        window.setTimeout(
+            () => {
+
+                songCardLeft.classList.add(
+                    "needsTap"
+                );
+
+                songCardLeftHint.hidden =
+                    false;
+
+            },
+            1800
+        );
+
+
+    /*
     Chain playback: once the left song finishes, start the
-    right one. Needs the SoundCloud Widget API script tag
-    in index.html to have loaded.
+    right one. Also cancels the tap nudge the moment real
+    playback begins, from autoplay or a manual tap alike.
+    Needs the SoundCloud Widget API script tag in index.html
+    to have loaded.
     */
 
     if (
@@ -1181,6 +1212,25 @@ function startSongs() {
             SC.Widget(
                 rightIframe
             );
+
+
+        leftWidget.bind(
+            SC.Widget.Events.PLAY,
+            () => {
+
+                window.clearTimeout(
+                    autoplayFallbackTimer
+                );
+
+                songCardLeft.classList.remove(
+                    "needsTap"
+                );
+
+                songCardLeftHint.hidden =
+                    true;
+
+            }
+        );
 
 
         leftWidget.bind(
