@@ -72,6 +72,11 @@ const songCardLeftHint =
         "songCardLeftHint"
     );
 
+const songCardLeftWrap =
+    document.getElementById(
+        "songCardLeftWrap"
+    );
+
 // =========================================================
 // FIND OUR SCREENS
 // =========================================================
@@ -1182,6 +1187,10 @@ function startSongs() {
                     "needsTap"
                 );
 
+                songCardLeftWrap.classList.add(
+                    "needsTap"
+                );
+
                 songCardLeftHint.hidden =
                     false;
 
@@ -1223,6 +1232,10 @@ function startSongs() {
                 );
 
                 songCardLeft.classList.remove(
+                    "needsTap"
+                );
+
+                songCardLeftWrap.classList.remove(
                     "needsTap"
                 );
 
